@@ -1,0 +1,61 @@
+---
+description: Testing standards with strict no-mocks policy
+globs: ["**/*.test.ts"]
+alwaysApply: false
+---
+
+# Testing Standards
+
+## Naming
+
+- Names in English
+- Represent business rules, not implementation details
+- Descriptive: what is being tested and what is expected
+- Avoid technical names or names coupled to implementation
+
+## AAA Structure (Arrange-Act-Assert)
+
+- **Arrange**: Prepare context and necessary data
+- **Act**: Execute the action to test
+- **Assert**: Verify the expected result
+- Visually separate the three sections (blank line between them)
+
+## Mocks
+
+- **NEVER use mocks without asking the Tech Lead first**
+- Mocks hide design problems and couple tests to implementation
+- Before proposing a mock, ask yourself: "Can I solve this with a simpler design?"
+- If you believe a mock is necessary, consult the human programmer with your reasoning
+
+## Examples
+
+```typescript
+// ⚠️ WORSE - Coupled to implementation, doesn't describe business
+test('calculatePrice returns 90', () => {
+  const result = calculatePrice(100, 10);
+  expect(result).toBe(90);
+});
+
+// ✅ BETTER - Describes business rule
+test('calculates price with discount applied to given product', () => {
+  const originalPrice = 100;
+  const discountPercentage = 10;
+
+  const finalPrice = calculateDiscountedPrice(originalPrice, discountPercentage);
+
+  expect(finalPrice).toBe(90);
+});
+```
+
+## Non-Negotiable Rules
+
+### ❌ I will NEVER:
+1. Delete an existing test - if a test fails, the implementation is wrong, not the test
+2. Modify a test to make the implementation pass - tests define the expected behavior
+3. Create tests that depend on other tests - each test must be independent and isolated
+4. Use mocks without asking the Tech Lead first
+
+### ✅ I will ALWAYS:
+1. Keep tests isolated and independent from each other
+2. Fix the implementation when a test fails, not the test
+3. Ask the Tech Lead before deleting or significantly modifying any test
