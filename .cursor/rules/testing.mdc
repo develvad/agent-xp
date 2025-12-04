@@ -13,6 +13,27 @@ alwaysApply: false
 - Descriptive: what is being tested and what is expected
 - Avoid technical names or names coupled to implementation
 
+### Describe blocks
+- Use "The [Subject]" format to identify the component/module being tested
+- The subject should be a domain concept, not a technical name
+
+### Test cases (it/test)
+- Write tests as business rules, not technical assertions
+- Avoid technical verbs: "returns", "should return", "calls", "throws"
+- Use domain language: "considers", "validates", "accepts", "allows", "calculates"
+- The full sentence (describe + it) should read as a specification
+
+### Structure
+- describe: The [Subject]
+- it: [action] [object] [condition]
+
+```typescript
+describe('The Invoice Calculator', () => {
+  it('applies a 10% discount for orders above 100€', () => { ... });
+  it('does not allow negative quantities', () => { ... });
+});
+```
+
 ## AAA Structure (Arrange-Act-Assert)
 
 - **Arrange**: Prepare context and necessary data

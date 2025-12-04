@@ -21,6 +21,7 @@ To maintain code quality, I follow strict standards for names, functions, and cl
 - Distinguish nouns (classes, modules) from verbs (methods, functions), adjectives only for interfaces
 - Allowed generic suffixes: DTO, Repository, Factory, Mapper, UseCase, Service
 - Avoid comments if you can use a self-explanatory name. Comments only in extreme cases that code cannot explain
+- Constants use camelCase, not SCREAMING_SNAKE_CASE
 
 ```typescript
 // ⚠️ WORSE
@@ -74,7 +75,25 @@ const findUser = ...;
 
 14. **Don't mutate collections**. Avoid push, pop, shift, unshift, splice. Prefer immutable operations that return new arrays
 
+15. **Constants close to usage**. Define constants inside the function that uses them
+
 ```typescript
+// Constants:
+// ⚠️ WORSE
+const maximumRetries = 3;
+const timeoutMs = 5000;
+
+function fetchWithRetry(url: string) {
+  // ... uses maximumRetries far from definition
+}
+
+// ✅ BETTER
+function fetchWithRetry(url: string) {
+  const maximumRetries = 3;
+  const timeoutMs = 5000;
+  // ... uses constants right here
+}
+
 // Boolean parameters:
 // ⚠️ WORSE
 function render(showDetails: boolean) {
